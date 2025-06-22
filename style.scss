@@ -1,0 +1,390 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+
+	// Color variables
+	--white-color: #fff;
+	--black-color: #000;
+	--danger-color: #ff0000;
+
+	// Eye Container variables
+	--eye-container-width: 222px;
+	--eye-container-height: 120px;
+
+	--eye-container-path: 'M79.5 1.50001C38.4364 -0.40075 1.74134 10.3692 1.18303 14.7428C-1.96486 51.3691 36.1777 100.334 62.7785 108.565C96.5 119 196.996 116 220.796 97.13C220.796 38.9999 135.34 4.08473 79.5 1.50001Z';
+	--eye-container-close-path: 'M63.536 107.869C55.036 106.482 47.536 102.869 34.536 91.3691C34.3829 91.2336 47.2262 106.535 62.7791 108.566C122.536 116.369 220.796 110.905 220.796 97.1305C214.536 109.869 120.536 115.869 63.536 107.869Z';
+	--eye-container-open-path: 'M77.8535 8.50532C36.7899 6.60455 1.74233 10.3693 1.18402 14.7428C-1.96387 51.3691 35.195 104.765 62.7795 108.565C121.253 116.622 220.797 110.905 220.797 97.13C218.717 43.0715 133.693 11.09 77.8535 8.50532Z';
+
+	// Eye Dot variables
+	--eye-dot-path: 'M63.7036 16.5535C69.5217 16.1779 74.4091 21.2375 74.9927 23.3821C73.1241 21.9884 70.0434 21.3385 68.3745 22.3685C69.9031 28.2338 66.6255 29.5143 65.4437 30.3738C63.131 31.6899 58.622 31.4372 56.4808 28.7715C54.3396 26.1059 54.3245 21.2398 57.9757 18.5777C60.7184 16.578 62.1149 16.656 63.7036 16.5535Z';
+	--eye-dot-mangekyou-sharingan-path: 'M43.8712 33.7205C50.5748 24.2192 70.6402 4.01618 88.6737 25.6158C85.7237 24.513 67.3917 13.0403 60.4803 44.5436C59.8317 47.5 59.6463 48.9769 58 52.5C55.4299 58 48.7422 60.403 43.4989 58C37.999 55.5 37.1818 50 37.5432 46.7619C38.1111 41.6738 42.0407 36.3149 43.8712 33.7205Z';
+
+	// Close/Open variables
+	--eye-close-bottom-start: 10px;
+	--eye-close-bottom-end: 0px;
+
+	--eye-container-open-duration: 2s;
+	--eye-open-duration: 1s;
+
+	--eye-container-close-duration: 0.5s;
+	--eye-close-duration: 1s;
+
+	// Sharingan 1 variables
+	--dot-sharingan-1-duration: 2s;
+	--dot-rotation-step: 360deg;
+	--dot-1-sharingan-1-rotation-from: 10deg;
+	--dot-1-sharingan-1-rotation-to: calc(var(--dot-1-sharingan-1-rotation-from) + var(--dot-rotation-step));
+
+	// Sharingan 2 variables
+	--dot-sharingan-2-duration: 2s;
+	--dot-1-sharingan-2-between: calc(360deg / 2);
+
+	--dot-1-sharingan-2-rotation-from: var(--dot-1-sharingan-1-rotation-to);
+	--dot-1-sharingan-2-rotation-to: calc(var(--dot-1-sharingan-2-rotation-from) + var(--dot-rotation-step));
+
+	--dot-2-sharingan-2-rotation-from: var(--dot-1-sharingan-2-rotation-from);
+	--dot-2-sharingan-2-rotation-to: calc(var(--dot-1-sharingan-2-rotation-to) + var(--dot-1-sharingan-2-between));
+
+	// Sharingan 3 variables
+	--dot-sharingan-3-duration: 2s;
+	--dot-1-sharingan-3-between: calc(360deg / 3);
+
+	--dot-1-sharingan-3-rotation-from: var(--dot-1-sharingan-2-rotation-to);
+	--dot-1-sharingan-3-rotation-to: calc(var(--dot-1-sharingan-3-rotation-from) + var(--dot-rotation-step));
+
+	--dot-2-sharingan-3-rotation-from: var(--dot-2-sharingan-2-rotation-to);
+	--dot-2-sharingan-3-rotation-to: calc(var(--dot-1-sharingan-3-rotation-to) + var(--dot-1-sharingan-3-between));
+
+	--dot-3-sharingan-3-rotation-from: var(--dot-2-sharingan-3-rotation-from);
+	--dot-3-sharingan-3-rotation-to: calc(var(--dot-2-sharingan-3-rotation-to) + var(--dot-1-sharingan-3-between));
+
+	// Mangekyou Sharingan variables
+	--dots-mangekyou-sharingan-duration: 2s;
+	--eye-dot-mangekyou-sharingan-duration: 1s;
+	--eye-dots-mangekyou-sharingan-rotation: 360deg;
+
+	// End
+	--end-scale: 2.5;
+	--end-duration: 1s;
+}
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 100px;
+
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
+	background: var(--black-color);
+	font-family: serif;
+}
+
+.eye_container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: var(--eye-container-width);
+	height: var(--eye-container-height);
+	background: var(--white-color);
+	clip-path: path(var(--eye-container-close-path));
+
+	&:nth-child(2) {
+		transform: scaleX(-1);
+
+		.eye {
+			transform: scaleX(-1);
+		}
+	}
+
+	// Eye
+	.eye {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		aspect-ratio: 1 / 1;
+		width: 100px;
+
+		border: 2px solid var(--black-color);
+		border-radius: 100%;
+		background: var(--black-color);
+		box-shadow: inset 0 0 2px;
+
+		overflow: hidden;
+		transition: 0.4s;
+
+		// Circle
+		.eye_circle {
+			position: absolute;
+			z-index: 2;
+			aspect-ratio: 1 / 1;
+			width: 63%;
+
+			border-radius: 100%;
+			border: 1px solid var(--black-color);
+		}
+
+		// Circle Center
+		.eye_circle_center {
+			position: absolute;
+			z-index: 3;
+
+			aspect-ratio: 1 / 1;
+			width: 15%;
+
+			border-radius: 100%;
+			background: var(--black-color);
+			transition: 0.5s;
+		}
+
+		// Dots
+		.eye_dots {
+			width: 100%;
+			height: 100%;
+
+			.eye_dot {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+
+				opacity: 0;
+				background: var(--black-color);
+				clip-path: path(var(--eye-dot-path));
+			}
+		}
+	}
+
+	// Open
+	&.eye_open {
+		animation: eye_container_anim var(--eye-container-open-duration) ease forwards;
+
+		@keyframes eye_container_anim {
+			0% {
+				clip-path: path(var(--eye-container-close-path));
+			}
+
+			40% {
+				clip-path: path(var(--eye-container-path));
+			}
+
+			100% {
+				clip-path: path(var(--eye-container-open-path));
+			}
+		}
+
+		.eye {
+			animation: eye_open_anim var(--eye-open-duration) ease forwards;
+
+			@keyframes eye_open_anim {
+				0% {
+					bottom: var(--eye-close-bottom-end);
+				}
+
+				100% {
+					bottom: var(--eye-close-bottom-start);
+				}
+			}
+		}
+	}
+
+	// Close
+	&.eye_close {
+		animation: eye_container_close_anim var(--eye-container-close-duration) ease forwards;
+
+		@keyframes eye_container_close_anim {
+			100% {
+				clip-path: path(var(--eye-container-close-path));
+			}
+
+			40% {
+				clip-path: path(var(--eye-container-path));
+			}
+
+			0% {
+				clip-path: path(var(--eye-container-open-path));
+			}
+		}
+
+		.eye {
+			animation: eye_close_anim var(--eye-close-duration) ease forwards;
+
+			@keyframes eye_close_anim {
+				0% {
+					bottom: var(--eye-close-bottom-start);
+				}
+
+				100% {
+					bottom: var(--eye-close-bottom-end);
+				}
+			}
+		}
+	}
+
+	// Sharingan 1
+	&.sharingan_1 {
+		.eye {
+			background: var(--danger-color);
+
+			.eye_dots {
+				.eye_dot {
+					&:nth-child(1) {
+						animation: eye_dot_1_sharingan_1_anim var(--dot-sharingan-1-duration) ease forwards;
+
+						@keyframes eye_dot_1_sharingan_1_anim {
+							0% {
+								opacity: 0;
+								transform: rotate(var(--dot-1-sharingan-1-rotation-from));
+							}
+
+							100% {
+								opacity: 1;
+								transform: rotate(var(--dot-1-sharingan-1-rotation-to));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Sharingan 2
+	&.sharingan_2 {
+		.eye {
+			background: var(--danger-color);
+
+			.eye_dots {
+				.eye_dot {
+					&:nth-child(1) {
+						animation: eye_dot_1_sharingan_2_anim var(--dot-sharingan-2-duration) ease forwards;
+
+						@keyframes eye_dot_1_sharingan_2_anim {
+							0% {
+								opacity: 1;
+								transform: rotate(var(--dot-1-sharingan-2-rotation-from));
+							}
+
+							100% {
+								opacity: 1;
+								transform: rotate(var(--dot-1-sharingan-2-rotation-to));
+							}
+						}
+					}
+
+					&:nth-child(2) {
+						animation: eye_dot_2_sharingan_2_anim var(--dot-sharingan-2-duration) ease forwards;
+
+						@keyframes eye_dot_2_sharingan_2_anim {
+							0% {
+								opacity: 0;
+								transform: rotate(var(--dot-2-sharingan-2-rotation-from));
+							}
+
+							100% {
+								opacity: 1;
+								transform: rotate(var(--dot-2-sharingan-2-rotation-to));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Sharingan 3
+	&.sharingan_3 {
+		.eye {
+			.eye_dots {
+				.eye_dot {
+					&:nth-child(1) {
+						animation: eye_dot_1_sharingan_3_anim var(--dot-sharingan-3-duration) ease forwards;
+
+						@keyframes eye_dot_1_sharingan_3_anim {
+							0% {
+								opacity: 1;
+								transform: rotate(var(--dot-1-sharingan-3-rotation-from));
+							}
+
+							100% {
+								opacity: 1;
+								transform: rotate(var(--dot-1-sharingan-3-rotation-to));
+							}
+						}
+					}
+
+					&:nth-child(2) {
+						animation: eye_dot_2_sharingan_3_anim var(--dot-sharingan-3-duration) ease forwards;
+
+						@keyframes eye_dot_2_sharingan_3_anim {
+							0% {
+								opacity: 1;
+								transform: rotate(var(--dot-2-sharingan-3-rotation-from));
+							}
+
+							100% {
+								opacity: 1;
+								transform: rotate(var(--dot-2-sharingan-3-rotation-to));
+							}
+						}
+					}
+
+					&:nth-child(3) {
+						animation: eye_dot_3_sharingan_3_anim var(--dot-sharingan-3-duration) ease forwards;
+
+						@keyframes eye_dot_3_sharingan_3_anim {
+							0% {
+								opacity: 0;
+								transform: rotate(var(--dot-3-sharingan-3-rotation-from));
+							}
+
+							100% {
+								opacity: 1;
+								transform: rotate(var(--dot-3-sharingan-3-rotation-to));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Mangekyou Sharingan
+	&.mangekyou_sharingan {
+		.eye {
+			.eye_circle {
+				width: 100%;
+				opacity: 0;
+			}
+
+			.eye_circle_center {
+				background: var(--danger-color);
+				width: 10%;
+			}
+
+			.eye_dots {
+				transform: rotate(var(--eye-dots-mangekyou-sharingan-rotation));
+				transition: var(--dots-mangekyou-sharingan-duration) ease;
+
+				.eye_dot {
+					transition: var(--eye-dot-mangekyou-sharingan-duration);
+					clip-path: path(var(--eye-dot-mangekyou-sharingan-path));
+				}
+			}
+		}
+	}
+}
+
+body:has(.end) {
+	scale: var(--end-scale);
+	transition: var(--end-duration);
+	opacity: 0;
+}
