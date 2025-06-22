@@ -67,8 +67,8 @@ body {
   width: var(--eye-container-width);
   height: var(--eye-container-height);
   background: var(--white-color);
-  -webkit-clip-path: path(var(--eye-container-close-path));
-          clip-path: path(var(--eye-container-close-path));
+  -webkit-clip-path: path(var(--eye-container-open-path));
+          clip-path: path(var(--eye-container-open-path));
 }
 .eye_container:nth-child(2) {
   transform: scaleX(-1);
@@ -121,9 +121,9 @@ body {
           clip-path: path(var(--eye-dot-path));
 }
 .eye_container.eye_open {
-  animation: eye_container_anim var(--eye-container-open-duration) ease forwards;
+  animation: eye_container_open_anim var(--eye-container-open-duration) ease forwards;
 }
-@keyframes eye_container_anim {
+@keyframes eye_container_open_anim {
   0% {
     -webkit-clip-path: path(var(--eye-container-close-path));
             clip-path: path(var(--eye-container-close-path));
@@ -148,25 +148,25 @@ body {
     bottom: var(--eye-close-bottom-start);
   }
 }
-.eye_container.eye_close {
-  animation: eye_container_close_anim var(--eye-container-close-duration) ease forwards;
+.eye_container.eye_blink {
+  animation: eye_container_close_anim var(--eye-container-close-duration) ease forwards, eye_container_open_anim var(--eye-container-open-duration) ease var(--eye-container-close-duration) forwards;
 }
 @keyframes eye_container_close_anim {
-  100% {
-    -webkit-clip-path: path(var(--eye-container-close-path));
-            clip-path: path(var(--eye-container-close-path));
+  0% {
+    -webkit-clip-path: path(var(--eye-container-open-path));
+            clip-path: path(var(--eye-container-open-path));
   }
   40% {
     -webkit-clip-path: path(var(--eye-container-path));
             clip-path: path(var(--eye-container-path));
   }
-  0% {
-    -webkit-clip-path: path(var(--eye-container-open-path));
-            clip-path: path(var(--eye-container-open-path));
+  100% {
+    -webkit-clip-path: path(var(--eye-container-close-path));
+            clip-path: path(var(--eye-container-close-path));
   }
 }
-.eye_container.eye_close .eye {
-  animation: eye_close_anim var(--eye-close-duration) ease forwards;
+.eye_container.eye_blink .eye {
+  animation: eye_close_anim var(--eye-close-duration) ease forwards, eye_open_anim var(--eye-open-duration) ease var(--eye-container-close-duration) forwards;
 }
 @keyframes eye_close_anim {
   0% {

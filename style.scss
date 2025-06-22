@@ -95,7 +95,7 @@ body {
 	width: var(--eye-container-width);
 	height: var(--eye-container-height);
 	background: var(--white-color);
-	clip-path: path(var(--eye-container-close-path));
+	clip-path: path(var(--eye-container-open-path));
 
 	&:nth-child(2) {
 		transform: scaleX(-1);
@@ -166,9 +166,9 @@ body {
 
 	// Open
 	&.eye_open {
-		animation: eye_container_anim var(--eye-container-open-duration) ease forwards;
+		animation: eye_container_open_anim var(--eye-container-open-duration) ease forwards;
 
-		@keyframes eye_container_anim {
+		@keyframes eye_container_open_anim {
 			0% {
 				clip-path: path(var(--eye-container-close-path));
 			}
@@ -197,26 +197,28 @@ body {
 		}
 	}
 
-	// Close
-	&.eye_close {
-		animation: eye_container_close_anim var(--eye-container-close-duration) ease forwards;
+	// Blink
+	&.eye_blink {
+		animation: eye_container_close_anim var(--eye-container-close-duration) ease forwards,
+			eye_container_open_anim var(--eye-container-open-duration) ease var(--eye-container-close-duration) forwards;
 
 		@keyframes eye_container_close_anim {
-			100% {
-				clip-path: path(var(--eye-container-close-path));
+			0% {
+				clip-path: path(var(--eye-container-open-path));
 			}
 
 			40% {
 				clip-path: path(var(--eye-container-path));
 			}
 
-			0% {
-				clip-path: path(var(--eye-container-open-path));
+			100% {
+				clip-path: path(var(--eye-container-close-path));
 			}
 		}
 
 		.eye {
-			animation: eye_close_anim var(--eye-close-duration) ease forwards;
+			animation: eye_close_anim var(--eye-close-duration) ease forwards,
+				eye_open_anim var(--eye-open-duration) ease var(--eye-container-close-duration) forwards;
 
 			@keyframes eye_close_anim {
 				0% {

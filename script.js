@@ -10,13 +10,13 @@ const handleOpen = async () => {
 	const eyeContainerEls = document.querySelectorAll('.eye_container');
 
 	eyeContainerEls.forEach(eyeContainerEl => {
-		eyeContainerEl.classList.remove('eye_open');
+		eyeContainerEl.classList.add('eye_open');
 	});
 
-	await wait(100);
+	await wait(2000);
 
 	eyeContainerEls.forEach(eyeContainerEl => {
-		eyeContainerEl.classList.add('eye_open');
+		eyeContainerEl.classList.remove('eye_open');
 	});
 };
 
@@ -29,36 +29,29 @@ const handleEnd = async () => {
 	});
 };
 
-const handleClose = async () => {
-	await wait(500);
+const handleBlink = async () => {
 	const eyeContainerEls = document.querySelectorAll('.eye_container');
 
 	eyeContainerEls.forEach(eyeContainerEl => {
-		eyeContainerEl.classList.remove('eye_close');
+		eyeContainerEl.classList.remove('eye_blink');
 	});
 
-	await wait(100);
+	await wait(1);
 
 	eyeContainerEls.forEach(eyeContainerEl => {
-		eyeContainerEl.classList.add('eye_close');
-	});
-
-	await wait(500);
-
-	eyeContainerEls.forEach(eyeContainerEl => {
-		eyeContainerEl.classList.remove('eye_close');
+		eyeContainerEl.classList.add('eye_blink');
 	});
 };
 
 const handleAnimation = async (animationName = '') => {
-	await handleClose();
-	await wait(200);
+	await handleBlink();
+	await wait(500);
 
 	const eyeContainerEls = document.querySelectorAll('.eye_container');
 	eyeContainerEls.forEach(eyeContainerEl => {
 		eyeContainerEl.classList.add(animationName);
 	});
-	await wait(4000);
+	await wait(5000);
 };
 
 const start = async () => {
