@@ -10,9 +10,7 @@ const handleOpen = async () => {
 	const eyeMainEl = document.querySelector('.eye_main');
 
 	eyeMainEl.classList.add('eye_open');
-
 	await wait(2000);
-
 	eyeMainEl.classList.remove('eye_open');
 };
 
@@ -21,14 +19,22 @@ const handleEnd = async () => {
 
 	await wait(2000);
 	eyeMainEl.classList.add('end');
+
+	await wait(5000);
+	eyeMainEl.setAttribute('class', 'eye_main no_transition');
+
+	await wait(5000);
+	eyeMainEl.classList.remove('no_transition');
+
+	await wait(1);
+	start();
 };
 
 const handleBlink = async () => {
 	const eyeMainEl = document.querySelector('.eye_main');
+
 	eyeMainEl.classList.remove('eye_blink');
-
 	await wait(1);
-
 	eyeMainEl.classList.add('eye_blink');
 };
 

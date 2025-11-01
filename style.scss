@@ -101,6 +101,7 @@ body {
 	width: var(--eye-main-width);
 	max-width: 100%;
 	margin: auto;
+	opacity: 1;
 
 	.eye_container_svg {
 		position: absolute;
@@ -416,6 +417,15 @@ body {
 					}
 				}
 			}
+		}
+	}
+
+	&.no_transition {
+		transition: none !important;
+		opacity: 0;
+
+		* {
+			transition: none !important;
 		}
 	}
 }

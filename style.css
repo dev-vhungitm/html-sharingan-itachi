@@ -67,6 +67,7 @@ body {
   width: var(--eye-main-width);
   max-width: 100%;
   margin: auto;
+  opacity: 1;
 }
 .eye_main .eye_container_svg {
   position: absolute;
@@ -282,6 +283,13 @@ body {
 .eye_main.mangekyou_sharingan .eye .eye_dots .eye_dot path {
   transition: var(--eye-dot-mangekyou-sharingan-duration);
   d: path(var(--eye-dot-mangekyou-sharingan-path));
+}
+.eye_main.no_transition {
+  transition: none !important;
+  opacity: 0;
+}
+.eye_main.no_transition * {
+  transition: none !important;
 }
 
 body:has(.end) .eye_main {
