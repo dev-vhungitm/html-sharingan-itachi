@@ -6,17 +6,32 @@ html {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0;
+  background: #000;
+  font-family: serif;
+}
+
+.eye_main {
   --white-color: #fff;
   --black-color: #000;
   --danger-color: #ff0000;
-  --eye-container-width: 222px;
-  --eye-container-height: 120px;
-  --eye-container-path: "M79.5 1.50001C38.4364 -0.40075 1.74134 10.3692 1.18303 14.7428C-1.96486 51.3691 36.1777 100.334 62.7785 108.565C96.5 119 196.996 116 220.796 97.13C220.796 38.9999 135.34 4.08473 79.5 1.50001Z";
-  --eye-container-close-path: "M63.536 107.869C55.036 106.482 47.536 102.869 34.536 91.3691C34.3829 91.2336 47.2262 106.535 62.7791 108.566C122.536 116.369 220.796 110.905 220.796 97.1305C214.536 109.869 120.536 115.869 63.536 107.869Z";
-  --eye-container-open-path: "M77.8535 8.50532C36.7899 6.60455 1.74233 10.3693 1.18402 14.7428C-1.96387 51.3691 35.195 104.765 62.7795 108.565C121.253 116.622 220.797 110.905 220.797 97.13C218.717 43.0715 133.693 11.09 77.8535 8.50532Z";
+  --sample-width: 1210px;
+  --eye-main-width: min(1210px, 100vw);
+  --eye-container-ratio: 222 / 120;
+  --eye-container-path: "M0.3581 0.0125C0.1732 -0.0033 0.0078 0.0864 0.0053 0.1229C-0.0088 0.4281 0.1629 0.8361 0.2827 0.9047C0.4342 0.9917 0.8874 0.9667 0.9946 0.8094C0.9946 0.325 0.6096 0.034 0.3581 0.0125Z";
+  --eye-container-close-path: "M0.2862 0.899C0.2470 0.8874 0.2141 0.8572 0.1556 0.7614C0.1548 0.7603 0.2127 0.888 0.2827 0.9047C0.5511 0.9697 0.9946 0.9242 0.9946 0.8094C0.9664 0.9156 0.5426 0.9656 0.2862 0.899Z";
+  --eye-container-open-path: "M0.3506 0.0709C0.1657 0.055, 0.0078 0.0864, 0.0053 0.1229C-0.0088 0.4281, 0.1585 0.873, 0.2828 0.9047C0.5463 0.9718, 0.9946 0.9242, 0.9946 0.8094C0.9852 0.3589, 0.602 0.0924, 0.3506 0.0709Z";
+  --eye-width: calc(100 / 222 * 100%);
   --eye-dot-path: "M63.7036 16.5535C69.5217 16.1779 74.4091 21.2375 74.9927 23.3821C73.1241 21.9884 70.0434 21.3385 68.3745 22.3685C69.9031 28.2338 66.6255 29.5143 65.4437 30.3738C63.131 31.6899 58.622 31.4372 56.4808 28.7715C54.3396 26.1059 54.3245 21.2398 57.9757 18.5777C60.7184 16.578 62.1149 16.656 63.7036 16.5535Z";
   --eye-dot-mangekyou-sharingan-path: "M43.8712 33.7205C50.5748 24.2192 70.6402 4.01618 88.6737 25.6158C85.7237 24.513 67.3917 13.0403 60.4803 44.5436C59.8317 47.5 59.6463 48.9769 58 52.5C55.4299 58 48.7422 60.403 43.4989 58C37.999 55.5 37.1818 50 37.5432 46.7619C38.1111 41.6738 42.0407 36.3149 43.8712 33.7205Z";
-  --eye-close-bottom-start: 10px;
+  --eye-close-bottom-start: calc(10 / 120 * 100%);
   --eye-close-bottom-end: 0px;
   --eye-container-open-duration: 2s;
   --eye-open-duration: 1s;
@@ -45,52 +60,49 @@ html {
   --eye-dots-mangekyou-sharingan-rotation: 360deg;
   --end-scale: 2.5;
   --end-duration: 1s;
-}
-
-body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 100px;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background: var(--black-color);
-  font-family: serif;
+  gap: calc(100px / var(--sample-width) * var(--eye-main-width));
+  width: var(--eye-main-width);
+  max-width: 100%;
+  margin: auto;
 }
-
-.eye_container {
+.eye_main .eye_container_svg {
+  position: absolute;
+}
+.eye_main .eye_container {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: var(--eye-container-width);
-  height: var(--eye-container-height);
+  flex: 1;
+  aspect-ratio: var(--eye-container-ratio);
+  height: auto;
   background: var(--white-color);
-  -webkit-clip-path: path(var(--eye-container-open-path));
-          clip-path: path(var(--eye-container-open-path));
+  clip-path: url(#eye_container_path);
 }
-.eye_container:nth-child(2) {
+.eye_main .eye_container:nth-child(2) {
   transform: scaleX(-1);
 }
-.eye_container:nth-child(2) .eye {
+.eye_main .eye_container:nth-child(2) .eye {
   transform: scaleX(-1);
 }
-.eye_container .eye {
+.eye_main .eye_container .eye {
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 1/1;
-  width: 100px;
-  border: 2px solid var(--black-color);
+  width: var(--eye-width);
+  border: calc(2px / var(--sample-width) * var(--eye-main-width)) solid var(--black-color);
   border-radius: 100%;
   background: var(--black-color);
-  box-shadow: inset 0 0 2px;
+  box-shadow: inset 0 0 calc(2px / var(--sample-width) * var(--eye-main-width));
   overflow: hidden;
   transition: 0.4s;
 }
-.eye_container .eye .eye_circle {
+.eye_main .eye_container .eye .eye_circle {
   position: absolute;
   z-index: 2;
   aspect-ratio: 1/1;
@@ -98,7 +110,7 @@ body {
   border-radius: 100%;
   border: 1px solid var(--black-color);
 }
-.eye_container .eye .eye_circle_center {
+.eye_main .eye_container .eye .eye_circle_center {
   position: absolute;
   z-index: 3;
   aspect-ratio: 1/1;
@@ -107,37 +119,35 @@ body {
   background: var(--black-color);
   transition: 0.5s;
 }
-.eye_container .eye .eye_dots {
+.eye_main .eye_container .eye .eye_dots {
   width: 100%;
   height: 100%;
 }
-.eye_container .eye .eye_dots .eye_dot {
+.eye_main .eye_container .eye .eye_dots .eye_dot {
   position: absolute;
   width: 100%;
   height: 100%;
   opacity: 0;
-  background: var(--black-color);
-  -webkit-clip-path: path(var(--eye-dot-path));
-          clip-path: path(var(--eye-dot-path));
 }
-.eye_container.eye_open {
+.eye_main .eye_container .eye .eye_dots .eye_dot path {
+  fill: var(--black-color);
+  d: path(var(--eye-dot-path));
+}
+.eye_main.eye_open .eye_container_svg path {
   animation: eye_container_open_anim var(--eye-container-open-duration) ease forwards;
 }
 @keyframes eye_container_open_anim {
   0% {
-    -webkit-clip-path: path(var(--eye-container-close-path));
-            clip-path: path(var(--eye-container-close-path));
+    d: path(var(--eye-container-close-path));
   }
   40% {
-    -webkit-clip-path: path(var(--eye-container-path));
-            clip-path: path(var(--eye-container-path));
+    d: path(var(--eye-container-path));
   }
   100% {
-    -webkit-clip-path: path(var(--eye-container-open-path));
-            clip-path: path(var(--eye-container-open-path));
+    d: path(var(--eye-container-open-path));
   }
 }
-.eye_container.eye_open .eye {
+.eye_main.eye_open .eye {
   animation: eye_open_anim var(--eye-open-duration) ease forwards;
 }
 @keyframes eye_open_anim {
@@ -148,24 +158,21 @@ body {
     bottom: var(--eye-close-bottom-start);
   }
 }
-.eye_container.eye_blink {
+.eye_main.eye_blink .eye_container_svg path {
   animation: eye_container_close_anim var(--eye-container-close-duration) ease forwards, eye_container_open_anim var(--eye-container-open-duration) ease var(--eye-container-close-duration) forwards;
 }
 @keyframes eye_container_close_anim {
   0% {
-    -webkit-clip-path: path(var(--eye-container-open-path));
-            clip-path: path(var(--eye-container-open-path));
+    d: path(var(--eye-container-open-path));
   }
   40% {
-    -webkit-clip-path: path(var(--eye-container-path));
-            clip-path: path(var(--eye-container-path));
+    d: path(var(--eye-container-path));
   }
   100% {
-    -webkit-clip-path: path(var(--eye-container-close-path));
-            clip-path: path(var(--eye-container-close-path));
+    d: path(var(--eye-container-close-path));
   }
 }
-.eye_container.eye_blink .eye {
+.eye_main.eye_blink .eye {
   animation: eye_close_anim var(--eye-close-duration) ease forwards, eye_open_anim var(--eye-open-duration) ease var(--eye-container-close-duration) forwards;
 }
 @keyframes eye_close_anim {
@@ -176,10 +183,10 @@ body {
     bottom: var(--eye-close-bottom-end);
   }
 }
-.eye_container.sharingan_1 .eye {
+.eye_main.sharingan_1 .eye {
   background: var(--danger-color);
 }
-.eye_container.sharingan_1 .eye .eye_dots .eye_dot:nth-child(1) {
+.eye_main.sharingan_1 .eye .eye_dots .eye_dot:nth-child(1) {
   animation: eye_dot_1_sharingan_1_anim var(--dot-sharingan-1-duration) ease forwards;
 }
 @keyframes eye_dot_1_sharingan_1_anim {
@@ -192,10 +199,10 @@ body {
     transform: rotate(var(--dot-1-sharingan-1-rotation-to));
   }
 }
-.eye_container.sharingan_2 .eye {
+.eye_main.sharingan_2 .eye {
   background: var(--danger-color);
 }
-.eye_container.sharingan_2 .eye .eye_dots .eye_dot:nth-child(1) {
+.eye_main.sharingan_2 .eye .eye_dots .eye_dot:nth-child(1) {
   animation: eye_dot_1_sharingan_2_anim var(--dot-sharingan-2-duration) ease forwards;
 }
 @keyframes eye_dot_1_sharingan_2_anim {
@@ -208,7 +215,7 @@ body {
     transform: rotate(var(--dot-1-sharingan-2-rotation-to));
   }
 }
-.eye_container.sharingan_2 .eye .eye_dots .eye_dot:nth-child(2) {
+.eye_main.sharingan_2 .eye .eye_dots .eye_dot:nth-child(2) {
   animation: eye_dot_2_sharingan_2_anim var(--dot-sharingan-2-duration) ease forwards;
 }
 @keyframes eye_dot_2_sharingan_2_anim {
@@ -221,7 +228,7 @@ body {
     transform: rotate(var(--dot-2-sharingan-2-rotation-to));
   }
 }
-.eye_container.sharingan_3 .eye .eye_dots .eye_dot:nth-child(1) {
+.eye_main.sharingan_3 .eye .eye_dots .eye_dot:nth-child(1) {
   animation: eye_dot_1_sharingan_3_anim var(--dot-sharingan-3-duration) ease forwards;
 }
 @keyframes eye_dot_1_sharingan_3_anim {
@@ -234,7 +241,7 @@ body {
     transform: rotate(var(--dot-1-sharingan-3-rotation-to));
   }
 }
-.eye_container.sharingan_3 .eye .eye_dots .eye_dot:nth-child(2) {
+.eye_main.sharingan_3 .eye .eye_dots .eye_dot:nth-child(2) {
   animation: eye_dot_2_sharingan_3_anim var(--dot-sharingan-3-duration) ease forwards;
 }
 @keyframes eye_dot_2_sharingan_3_anim {
@@ -247,7 +254,7 @@ body {
     transform: rotate(var(--dot-2-sharingan-3-rotation-to));
   }
 }
-.eye_container.sharingan_3 .eye .eye_dots .eye_dot:nth-child(3) {
+.eye_main.sharingan_3 .eye .eye_dots .eye_dot:nth-child(3) {
   animation: eye_dot_3_sharingan_3_anim var(--dot-sharingan-3-duration) ease forwards;
 }
 @keyframes eye_dot_3_sharingan_3_anim {
@@ -260,25 +267,24 @@ body {
     transform: rotate(var(--dot-3-sharingan-3-rotation-to));
   }
 }
-.eye_container.mangekyou_sharingan .eye .eye_circle {
+.eye_main.mangekyou_sharingan .eye .eye_circle {
   width: 100%;
   opacity: 0;
 }
-.eye_container.mangekyou_sharingan .eye .eye_circle_center {
+.eye_main.mangekyou_sharingan .eye .eye_circle_center {
   background: var(--danger-color);
   width: 10%;
 }
-.eye_container.mangekyou_sharingan .eye .eye_dots {
+.eye_main.mangekyou_sharingan .eye .eye_dots {
   transform: rotate(var(--eye-dots-mangekyou-sharingan-rotation));
   transition: var(--dots-mangekyou-sharingan-duration) ease;
 }
-.eye_container.mangekyou_sharingan .eye .eye_dots .eye_dot {
+.eye_main.mangekyou_sharingan .eye .eye_dots .eye_dot path {
   transition: var(--eye-dot-mangekyou-sharingan-duration);
-  -webkit-clip-path: path(var(--eye-dot-mangekyou-sharingan-path));
-          clip-path: path(var(--eye-dot-mangekyou-sharingan-path));
+  d: path(var(--eye-dot-mangekyou-sharingan-path));
 }
 
-body:has(.end) {
+body:has(.end) .eye_main {
   scale: var(--end-scale);
   transition: var(--end-duration);
   opacity: 0;
